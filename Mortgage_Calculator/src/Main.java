@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
@@ -10,44 +9,59 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
 // Prompting user for principal
-        int principal;
+        double principal;
             while (true) {
                 System.out.print("Principal ($1K - $1M): ");
-                principal = scanner.nextInt();
-
-                if (principal >= 1000 && principal <= 1000000) {
-                    break;
+                if (!scanner.hasNextDouble()) {
+                    scanner.next();
+                    System.out.println("Enter a numeric value.");
                 } else {
-                    System.out.println("Enter a number between 1,000 and 1,000,000.");
+                    principal = scanner.nextDouble();
+                    if (principal >= 1000 && principal <= 1000000) {
+                        break;
+                    } else if (principal < 1000 || principal > 1000000) {
+                        System.out.println("Enter a number between 1,000 and 1,000,000.");
+                    }
                 }
             }
 
 // Prompting user for annual interest
             double annualInterest;
             while (true) {
-                System.out.print("Annual Interest Rate: ");
-                annualInterest = scanner.nextDouble();
-                if (annualInterest > 0 && annualInterest <= 15) {
-                    break;
+                System.out.print("Annual interest rate (up to 30%): ");
+                if (!scanner.hasNextDouble()) {
+                    scanner.next();
+                    System.out.println("Enter a numeric value.");
                 } else {
-                    System.out.println("Enter a value greater than 0 and less than or equal to 15.");
+                    annualInterest = scanner.nextDouble();
+                    if (annualInterest > 0 && annualInterest <= 30) {
+                        break;
+                    } else if (annualInterest <= 0 || annualInterest > 30) {
+                        System.out.println("Enter a value greater than 0 and less than or equal to 30.");
+                    }
                 }
             }
 
             // Prompting user for years
-        int years;
+        double years;
         while (true) {
-            System.out.print("Period (Years): ");
-            years = scanner.nextInt();
-            if (years > 0 && years <= 50) {
-                break;
-            } else {
-                System.out.println("Enter a value greater than 0 and less than or equal to 50");
+            System.out.print("Period (1-30 years): ");
+            if (!scanner.hasNextDouble()) {
+                scanner.next();
+                System.out.println("Enter a numeric value.");
+            }
+            else {
+                years = scanner.nextDouble();
+                if (years > 0 && years <= 30) {
+                    break;
+                } else if (years <= 0 || years > 30) {
+                    System.out.println("Enter a value greater than 0 and less than or equal to 30");
+                }
             }
         }
 
         double monthlyInterest = annualInterest / 100 / 12;
-        int numberOfPayments = years * 12;
+        double numberOfPayments = years * 12;
 
         // Calculating result of mortgage payment
         double mortgage = principal
